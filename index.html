@@ -1,915 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Progress Diary</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f6f8;
-            color: #222;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 28px;
-        }
-
-        header p {
-            color: #777;
-            margin-top: 5px;
-        }
-
-        button {
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 14px;
-        }
-
-        .add-btn {
-            background: #222;
-            color: white;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            background: white;
-            border: 1px solid #ddd;
-        }
-
-        .tab.active {
-            background: #222;
-            color: white;
-        }
-
-        .section-title {
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .task-list {
-            display: grid;
-            gap: 12px;
-        }
-
-        .task {
-            background: white;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-        }
-
-        .task-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .task-name {
-            font-size: 17px;
-            font-weight: bold;
-        }
-
-        .task-info {
-            color: #777;
-            font-size: 14px;
-            margin-top: 6px;
-        }
-
-        .progress-bar {
-            height: 9px;
-            background: #e9e9e9;
-            border-radius: 10px;
-            margin: 15px 0 8px;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background: #222;
-            border-radius: 10px;
-            transition: width 0.3s;
-        }
-
-        .progress-text {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .task-actions {
-            margin-top: 12px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .update-btn {
-            background: #eee;
-        }
-
-        .delete-btn {
-            background: #ffe5e5;
-            color: #c00;
-        }
-
-        .empty {
-            background: white;
-            padding: 30px;
-            text-align: center;
-            color: #888;
-            border-radius: 12px;
-        }
-
-        /* Modal */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.45);
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-box {
-            background: white;
-            width: 100%;
-            max-width: 450px;
-            padding: 25px;
-            border-radius: 15px;
-        }
-
-        .modal-box h2 {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-            margin-bottom: 6px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .save-btn {
-            background: #222;
-            color: white;
-            flex: 1;
-        }
-
-        .cancel-btn {
-            background: #eee;
-            flex: 1;
-        }
-
-        .stats {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .stat {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            flex: 1;
-            border: 1px solid #eee;
-        }
-
-        .stat-number {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .stat-label {
-            color: #777;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        @media (max-width: 600px) {
-            header {
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            header h1 {
-                font-size: 23px;
-            }
-
-            .stats {
-                flex-direction: column;
-            }
-
-            .task-top {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Progress Diary</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#222222">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #f5f6f8; color: #333; padding: 20px; max-width: 600px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab { flex: 1; padding: 12px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 8px; font-weight: bold; text-align: center; -webkit-tap-highlight-color: transparent; }
+    .tab.active { background: #222222; color: #ffffff; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+    input[type="text"] { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+    button.add-btn { padding: 12px 18px; background: #222222; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    ul { list-style: none; }
+    li { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .delete-btn { background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <h1>My Progress Diary</h1>
 
-    <header>
-        <div>
-            <h1>My Progress Diary</h1>
-            <p id="date"></p>
-        </div>
+  <div class="tabs">
+    <button class="tab" data-tab="daily">Daily</button>
+    <button class="tab" data-tab="weekly">Weekly</button>
+    <button class="tab" data-tab="monthly">Monthly</button>
+  </div>
 
-        <button class="add-btn" onclick="openModal()">
-            + Add Task
-        </button>
-    </header>
+  <div class="input-group">
+    <input type="text" id="taskInput" placeholder="Add a new task...">
+    <button class="add-btn" id="addBtn">Add Task</button>
+  </div>
 
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-number" id="totalTasks">0</div>
-            <div class="stat-label">Total Tasks</div>
-        </div>
+  <h2>Tasks</h2>
+  <ul id="taskList"></ul>
 
-        <div class="stat">
-            <div class="stat-number" id="completedTasks">0</div>
-            <div class="stat-label">Completed</div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-number" id="overallProgress">0%</div>
-            <div class="stat-label">Overall Progress</div>
-        </div>
-    </div>
-
-    <div class="tabs">
-        <button class="tab active" onclick="changeTab('daily', this)">
-            Daily
-        </button>
-
-        <button class="tab" onclick="changeTab('weekly', this)">
-            Weekly
-        </button>
-
-        <button class="tab" onclick="changeTab('monthly', this)">
-            Monthly
-        </button>
-    </div>
-
-    <h2 class="section-title" id="sectionTitle">
-        Today's Tasks
-    </h2>
-
-    <div id="taskList" class="task-list"></div>
-
-</div>
-
-
-<!-- ADD TASK MODAL -->
-
-<div class="modal" id="modal">
-
-    <div class="modal-box">
-
-        <h2>Add Task</h2>
-
-        <label>Task name</label>
-        <input
-            type="text"
-            id="taskName"
-            placeholder="Example: Read book"
-        >
-
-        <label>Category</label>
-
-        <select id="taskCategory">
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-        </select>
-
-        <label>Completed</label>
-
-        <input
-            type="number"
-            id="completed"
-            value="0"
-            min="0"
-        >
-
-        <label>Total</label>
-
-        <input
-            type="number"
-            id="total"
-            value="1"
-            min="1"
-        >
-
-        <label>Unit</label>
-
-        <input
-            type="text"
-            id="unit"
-            placeholder="pages / modules / minutes / days"
-        >
-
-        <label>Deadline</label>
-
-        <input
-            type="date"
-            id="deadline"
-        >
-
-        <div class="modal-buttons">
-
-            <button class="cancel-btn" onclick="closeModal()">
-                Cancel
-            </button>
-
-            <button class="save-btn" onclick="addTask()">
-                Save Task
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-    // -------------------------
-    // DATA
-    // -------------------------
-
-    let tasks = JSON.parse(localStorage.getItem("myTasks")) || [];
-
-    let currentTab = "daily";
-
-
-    // -------------------------
-    // DATE
-    // -------------------------
-
-    const today = new Date();
-
-    document.getElementById("date").innerText =
-        today.toLocaleDateString("en-IN", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
-
-
-    // -------------------------
-    // CHANGE TAB
-    // -------------------------
-
-    function changeTab(category, button) {
-
-        currentTab = category;
-
-        document.querySelectorAll(".tab").forEach(tab => {
-            tab.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        if (category === "daily") {
-            document.getElementById("sectionTitle").innerText =
-                "Today's Tasks";
-        }
-
-        if (category === "weekly") {
-            document.getElementById("sectionTitle").innerText =
-                "This Week";
-        }
-
-        if (category === "monthly") {
-            document.getElementById("sectionTitle").innerText =
-                "This Month";
-        }
-
-        displayTasks();
+  <script>
+    // Safe Storage handler for mobile browsers & WebViews
+    function getStored(key, defaultVal) {
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : defaultVal;
+      } catch (e) {
+        return defaultVal;
+      }
     }
 
-
-    // -------------------------
-    // OPEN MODAL
-    // -------------------------
-
-    function openModal() {
-
-        document.getElementById("modal").style.display = "flex";
-
-        document.getElementById("taskCategory").value =
-            currentTab;
+    function setStored(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch (e) {
+        console.warn("Storage write failed:", e);
+      }
     }
 
-
-    // -------------------------
-    // CLOSE MODAL
-    // -------------------------
-
-    function closeModal() {
-
-        document.getElementById("modal").style.display = "none";
-
-        document.getElementById("taskName").value = "";
-        document.getElementById("completed").value = 0;
-        document.getElementById("total").value = 1;
-        document.getElementById("unit").value = "";
-        document.getElementById("deadline").value = "";
-    }
-
-
-    // -------------------------
-    // ADD TASK
-    // -------------------------
-
-    function addTask() {
-
-        const name =
-            document.getElementById("taskName").value.trim();
-
-        const category =
-            document.getElementById("taskCategory").value;
-
-        const completed =
-            Number(document.getElementById("completed").value);
-
-        const total =
-            Number(document.getElementById("total").value);
-
-        const unit =
-            document.getElementById("unit").value.trim();
-
-        const deadline =
-            document.getElementById("deadline").value;
-
-
-        if (!name) {
-            alert("Please enter a task name.");
-            return;
-        }
-
-        if (total <= 0) {
-            alert("Total must be greater than 0.");
-            return;
-        }
-
-        const task = {
-
-            id: Date.now(),
-
-            name: name,
-
-            category: category,
-
-            completed: Math.min(completed, total),
-
-            total: total,
-
-            unit: unit,
-
-            deadline: deadline
-        };
-
-
-        tasks.push(task);
-
-        saveTasks();
-
-        closeModal();
-
-        currentTab = category;
-
-        updateActiveTab();
-
-        displayTasks();
-    }
-
-
-    // -------------------------
-    // DISPLAY TASKS
-    // -------------------------
-
-    function displayTasks() {
-
-        const taskList =
-            document.getElementById("taskList");
-
-        const filteredTasks =
-            tasks.filter(task =>
-                task.category === currentTab
-            );
-
-
-        if (filteredTasks.length === 0) {
-
-            taskList.innerHTML = `
-                <div class="empty">
-                    No tasks yet.<br>
-                    Click "+ Add Task" to create one.
-                </div>
-            `;
-
-            updateStats();
-
-            return;
-        }
-
-
-        taskList.innerHTML = "";
-
-
-        filteredTasks.forEach(task => {
-
-            let percentage =
-                Math.round(
-                    (task.completed / task.total) * 100
-                );
-
-            if (percentage > 100) {
-                percentage = 100;
-            }
-
-
-            const remaining =
-                task.total - task.completed;
-
-
-            let status = "";
-
-            if (percentage === 100) {
-
-                status = "✅ Completed";
-
-            } else {
-
-                status =
-                    `🔄 ${remaining} ${task.unit || "remaining"}`;
-            }
-
-
-            let deadlineText = "";
-
-            if (task.deadline) {
-
-                const deadlineDate =
-                    new Date(task.deadline + "T00:00:00");
-
-                const todayDate =
-                    new Date();
-
-                todayDate.setHours(0,0,0,0);
-
-                const difference =
-                    Math.ceil(
-                        (deadlineDate - todayDate)
-                        / (1000 * 60 * 60 * 24)
-                    );
-
-
-                if (difference < 0) {
-
-                    deadlineText =
-                        "⚠️ Deadline passed";
-
-                } else if (difference === 0) {
-
-                    deadlineText =
-                        "⚠️ Due today";
-
-                } else if (difference === 1) {
-
-                    deadlineText =
-                        "⏳ 1 day left";
-
-                } else {
-
-                    deadlineText =
-                        `⏳ ${difference} days left`;
-                }
-            }
-
-
-            const taskElement =
-                document.createElement("div");
-
-            taskElement.className = "task";
-
-
-            taskElement.innerHTML = `
-
-                <div class="task-top">
-
-                    <div>
-
-                        <div class="task-name">
-                            ${task.name}
-                        </div>
-
-                        <div class="task-info">
-                            ${task.completed} /
-                            ${task.total}
-                            ${task.unit}
-                            &nbsp; • &nbsp;
-                            ${status}
-                        </div>
-
-                    </div>
-
-                    <strong>
-                        ${percentage}%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress"
-                        style="width:${percentage}%">
-                    </div>
-
-                </div>
-
-
-                <div class="progress-text">
-
-                    ${deadlineText}
-
-                </div>
-
-
-                <div class="task-actions">
-
-                    <button
-                        class="update-btn"
-                        onclick="updateTask(${task.id})">
-                        Update Progress
-                    </button>
-
-                    <button
-                        class="delete-btn"
-                        onclick="deleteTask(${task.id})">
-                        Delete
-                    </button>
-
-                </div>
-
-            `;
-
-
-            taskList.appendChild(taskElement);
-
-        });
-
-
-        updateStats();
-    }
-
-
-    // -------------------------
-    // UPDATE PROGRESS
-    // -------------------------
-
-    function updateTask(id) {
-
-        const task =
-            tasks.find(task => task.id === id);
-
-        if (!task) return;
-
-
-        const newValue =
-            prompt(
-                `Current progress: ${task.completed}/${task.total}\n\nEnter new completed amount:`,
-                task.completed
-            );
-
-
-        if (newValue === null) return;
-
-
-        const number =
-            Number(newValue);
-
-
-        if (
-            isNaN(number) ||
-            number < 0 ||
-            number > task.total
-        ) {
-
-            alert(
-                `Enter a number between 0 and ${task.total}.`
-            );
-
-            return;
-        }
-
-
-        task.completed = number;
-
-        saveTasks();
-
-        displayTasks();
-    }
-
-
-    // -------------------------
-    // DELETE
-    // -------------------------
-
-    function deleteTask(id) {
-
-        if (!confirm("Delete this task?")) {
-            return;
-        }
-
-
-        tasks =
-            tasks.filter(task =>
-                task.id !== id
-            );
-
-
-        saveTasks();
-
-        displayTasks();
-    }
-
-
-    // -------------------------
-    // SAVE
-    // -------------------------
-
-    function saveTasks() {
-
-        localStorage.setItem(
-            "myTasks",
-            JSON.stringify(tasks)
-        );
-    }
-
-
-    // -------------------------
-    // STATS
-    // -------------------------
-
-    function updateStats() {
-
-        const totalTasks =
-            tasks.length;
-
-
-        const completedTasks =
-            tasks.filter(task =>
-                task.completed >= task.total
-            ).length;
-
-
-        let overallProgress = 0;
-
-
-        if (totalTasks > 0) {
-
-            let sum = 0;
-
-            tasks.forEach(task => {
-
-                sum +=
-                    (task.completed / task.total) * 100;
-
-            });
-
-            overallProgress =
-                Math.round(sum / totalTasks);
-        }
-
-
-        document.getElementById("totalTasks")
-            .innerText = totalTasks;
-
-        document.getElementById("completedTasks")
-            .innerText = completedTasks;
-
-        document.getElementById("overallProgress")
-            .innerText = overallProgress + "%";
-    }
-
-
-    // -------------------------
-    // ACTIVE TAB
-    // -------------------------
-
-    function updateActiveTab() {
-
-        document.querySelectorAll(".tab")
-            .forEach(tab =>
-                tab.classList.remove("active")
-            );
-
-
-        // Safe localStorage retrieval for WebViews / WhatsApp
-        let currentTab = "daily";
-        try {
-          currentTab = localStorage.getItem("currentTab") || "daily";
-        } catch (e) {
-          console.warn("Storage access blocked by browser/WebView");
-        }
-
-        const buttons = document.querySelectorAll(".tab");
-
-        // Safely apply active state
-        if (buttons && buttons.length > 0) {
-          if (currentTab === "daily" && buttons[0]) buttons[0].classList.add("active");
-          if (currentTab === "weekly" && buttons[1]) buttons[1].classList.add("active");
-          if (currentTab === "monthly" && buttons[2]) buttons[2].classList.add("active");
-        }
-
-
-// -------------------------
-// ACTIVE TAB
-// -------------------------
-
-function updateActiveTab() {
-
-    document.querySelectorAll(".tab")
-        .forEach(tab =>
-            tab.classList.remove("active")
-        );
+    let currentTab = getStored("currentTab", "daily");
+    let tasks = getStored("diary_tasks", []);
 
     const buttons = document.querySelectorAll(".tab");
+    const taskInput = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
 
-    if (currentTab === "daily" && buttons[0]) {
-        buttons[0].classList.add("active");
+    // Click handlers for tabs
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentTab = btn.getAttribute("data-tab");
+        setStored("currentTab", currentTab);
+        displayTasks();
+      });
+    });
+
+    // Add Task listener
+    addBtn.addEventListener("click", () => {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      tasks.push({ id: Date.now(), text, tab: currentTab });
+      setStored("diary_tasks", tasks);
+      taskInput.value = "";
+      displayTasks();
+    });
+
+    // Display tasks matching selected tab
+    function displayTasks() {
+      taskList.innerHTML = "";
+      
+      // Update Tab CSS
+      buttons.forEach(b => {
+        if (b.getAttribute("data-tab") === currentTab) {
+          b.classList.add("active");
+        } else {
+          b.classList.remove("active");
+        }
+      });
+
+      const filtered = tasks.filter(t => t.tab === currentTab);
+
+      if (filtered.length === 0) {
+        taskList.innerHTML = "<li style='color:#777;'>No tasks added yet.</li>";
+        return;
+      }
+
+      filtered.forEach(task => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${task.text}</span>
+          <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+        `;
+        taskList.appendChild(li);
+      });
     }
 
-    if (currentTab === "weekly" && buttons[1]) {
-        buttons[1].classList.add("active");
+    // Task deletion handler
+    window.deleteTask = function(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      setStored("diary_tasks", tasks);
+      displayTasks();
+    };
+
+    // Initialize application
+    displayTasks();
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.error('Service worker registration failed:', err);
+        });
+      });
     }
-
-    if (currentTab === "monthly" && buttons[2]) {
-        buttons[2].classList.add("active");
-    }
-}
-
-
-// -------------------------
-// START APP
-// -------------------------
-
-displayTasks();
-
-</script>
+  </script>
 </body>
 </html>
-
-  
