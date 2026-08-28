@@ -874,15 +874,40 @@
           if (currentTab === "monthly" && buttons[2]) buttons[2].classList.add("active");
         }
 
-        // Start task rendering
-        displayTasks();
+        // -------------------------
+// ACTIVE TAB
+// -------------------------
 
-        // Register PWA Service Worker
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js');
-          });
-        }
-      </script>
-  </body>
+function updateActiveTab() {
+
+    document.querySelectorAll(".tab")
+        .forEach(tab =>
+            tab.classList.remove("active")
+        );
+
+    const buttons = document.querySelectorAll(".tab");
+
+    if (currentTab === "daily" && buttons[0]) {
+        buttons[0].classList.add("active");
+    }
+
+    if (currentTab === "weekly" && buttons[1]) {
+        buttons[1].classList.add("active");
+    }
+
+    if (currentTab === "monthly" && buttons[2]) {
+        buttons[2].classList.add("active");
+    }
+}
+
+
+// -------------------------
+// START APP
+// -------------------------
+
+displayTasks();
+
+</script>
+</body>
 </html>
+  
